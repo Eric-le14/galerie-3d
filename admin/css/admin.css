@@ -1,0 +1,130 @@
+/* Style général pour l'admin Galerie 3D */
+
+/* ✅ Checkbox principal */
+th input[type="checkbox"] {
+    margin-left: 4px;
+    transform: scale(1.2);
+}
+
+/* ✅ Images dans le tableau */
+.wp-list-table img {
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* ✅ Actions sous le nom du client */
+.row-actions {
+    font-size: 13px;
+    color: #555;
+}
+.row-actions a {
+    text-decoration: none;
+}
+.row-actions a:hover {
+    color: #0073aa;
+}
+
+/* ✅ Formulaire de recherche + pagination */
+form input[type="text"] {
+    min-width: 250px;
+    padding: 4px 8px;
+}
+
+form .button.secondary {
+    margin-left: 6px;
+}
+
+/* ✅ Espace autour du bouton "Ajouter une commande" */
+.page-title-action {
+    margin-top: 10px;
+}
+
+/* ✅ Tableau : un peu plus d'air */
+.wp-list-table th, .wp-list-table td {
+    vertical-align: middle;
+}
+
+echo '<style>
+    .widefat td:hover .row-actions {
+        visibility: visible;
+    }
+    .row-actions a {
+        color: #0073aa;
+        text-decoration: none;
+    }
+    .row-actions a:hover {
+        text-decoration: underline;
+    }
+</style>';
+
+
+/* Réduction de l'espacement entre la case à cocher et l'image */
+.wp-list-table td.checkbox-column,
+.wp-list-table th.checkbox-column {
+    width: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+.wp-list-table td.image-column,
+.wp-list-table th.image-column {
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 80px; /* Ajuste selon la taille de l'image */
+}
+
+.wp-list-table .image-column img {
+    max-width: 70px;
+    height: auto;
+    display: block;
+}
+
+.wp-list-table td,
+.wp-list-table th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+
+
+/* 🎨 Style du formulaire d'ajout/modification de commande */
+
+.galerie3d-form-container {
+    background: #fff;
+    padding: 20px 25px;
+    border: 1px solid #ccd0d4;
+    border-radius: 8px;
+    max-width: 800px;
+    margin-top: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.galerie3d-form-container h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.galerie3d-form-container label {
+    display: block;
+    font-weight: 600;
+    margin: 15px 0 5px;
+}
+
+.galerie3d-form-container input[type="text"],
+.galerie3d-form-container input[type="url"],
+.galerie3d-form-container input[type="date"],
+.galerie3d-form-container select,
+.galerie3d-form-container textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.galerie3d-form-container .button-primary {
+    margin-top: 20px;
+    padding: 8px 20px;
+    font-size: 14px;
+}
