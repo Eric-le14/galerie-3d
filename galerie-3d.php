@@ -6,7 +6,6 @@
  * Author: Votre Nom
  * Text Domain: galerie3d
  */
-<?php
 /**
  * Plugin Name: Galerie 3D
  * Plugin URI: https://github.com/Eric-le14/galerie-3d
