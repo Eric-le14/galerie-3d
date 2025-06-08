@@ -1,14 +1,6 @@
 <?php
 /**
  * Plugin Name: Galerie 3D
- * Description: Gère une galerie de réalisations d'impression 3D avec images, fichiers STL, description et statut.
- * Version: 1.1.0
- * Author: Votre Nom
- * Text Domain: galerie3d
- */
-<?php
-/**
- * Plugin Name: Galerie 3D
  * Plugin URI: https://github.com/Eric-le14/galerie-3d
  * Description: Plugin WordPress pour gérer une galerie 3D avec fiches matériaux, réalisations, et contenus associés.
  * Version: 1.1.0
