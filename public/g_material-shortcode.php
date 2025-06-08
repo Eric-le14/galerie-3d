@@ -3,7 +3,11 @@ function p3d_display_material($atts) {
     global $wpdb;
     $table = $wpdb->prefix . 'p3d_materials_g';
     $paged = isset($_GET['p3d_page']) ? max(1, intval($_GET['p3d_page'])) : 1;
-       $per_page = get_option('p3d_items_per_page', 2);
+    $opts = get_option('galerie3d_materiaux_client_options');
+    $per_page = $opts['per_page'] ?? 2;
+ 
+    
+
 
     $offset = ($paged - 1) * $per_page;
     $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE status = 1");
@@ -155,7 +159,7 @@ function p3d_display_material($atts) {
                             <h4>Avantages</h4>
                             <?php
                             if (!empty($material->advantages)) {
-                                foreach (explode("\n", $material->advantages) as $line) {
+                                foreach (explode(",", $material->advantages) as $line) {
                                     if (trim($line)) echo '<p>' . esc_html($line) . '</p>';
                                 }
                             }
@@ -165,7 +169,7 @@ function p3d_display_material($atts) {
                             <h4>Inconvénients</h4>
                             <?php
                             if (!empty($material->disadvantages)) {
-                                foreach (explode("\n", $material->disadvantages) as $line) {
+                                foreach (explode(",", $material->disadvantages) as $line) {
                                     if (trim($line)) echo '<p>' . esc_html($line) . '</p>';
                                 }
                             }
@@ -178,7 +182,7 @@ function p3d_display_material($atts) {
                             <div class="p3d-applications">
                                 <?php
                                 if (!empty($material->applications)) {
-                                    foreach (explode("\n", $material->applications) as $line) {
+                                    foreach (explode(",", $material->applications) as $line) {
                                         if (trim($line)) echo '<p>' . esc_html($line) . '</p>';
                                     }
                                 }

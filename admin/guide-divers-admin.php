@@ -1,14 +1,14 @@
 <?php  
 if (!defined('ABSPATH')) exit;
-function p3d_render_guide_materiel_form_page() {
-    include plugin_dir_path(__FILE__) . 'guide-materiel-form.php';
+function p3d_render_guide_divers_form_page() {
+    include plugin_dir_path(__FILE__) . 'guide-divers-form.php';
 }
  
 
 
-function p3d_render_guide_materiel_page() {
+function p3d_render_guide_divers_page() {
     global $wpdb;
-    $table = $wpdb->prefix . 'p3d_materials_g';
+    $table = $wpdb->prefix . 'p3d_divers_g';
  if (isset($_GET['action'], $_GET['id']) && $_GET['action'] === 'delete') {
     $id = intval($_GET['id']);
     if (wp_verify_nonce($_GET['_wpnonce'], 'p3d_delete_material_' . $id)) {
@@ -18,13 +18,13 @@ function p3d_render_guide_materiel_page() {
         echo '<div class="notice notice-error"><p>Échec de la vérification de sécurité.</p></div>';
     }
 }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guide_materiel_description'])) {
-        update_option('guide_materiel_description', wp_kses_post($_POST['guide_materiel_description']));
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guide_divers_description'])) {
+        update_option('guide_divers_description', wp_kses_post($_POST['guide_divers_description']));
         echo '<div class="notice notice-success"><p>Description mise à jour.</p></div>';
     }
 
     echo '<div class="wrap">';
-    echo '<h1>Guide Matériel</h1>';
+    echo '<h1>Bon à savoir</h1>';
 echo '<style>
     .widefat tr.has-row-actions:hover td > .row-actions {
         display: block;
@@ -44,8 +44,8 @@ echo '<style>
 </style>';
 
     echo '<form method="post">';
-    wp_editor(get_option('guide_materiel_description', ''), 'guide_materiel_description', [
-        'textarea_name' => 'guide_materiel_description',
+    wp_editor(get_option('guide_divers_description', ''), 'guide_divers_description', [
+        'textarea_name' => 'guide_divers_description',
         'media_buttons' => true,
         'textarea_rows' => 5,
     ]);
@@ -53,47 +53,49 @@ echo '<style>
     echo '</form><hr>';
 
     echo '<form method="get">';
-    echo '<input type="hidden" name="page" value="guide-materiel">';
+    echo '<input type="hidden" name="page" value="guide-divers">';
     echo '<input type="text" name="search" placeholder="Rechercher par nom ou description..." value="' . esc_attr($_GET['search'] ?? '') . '" />';
     submit_button('Rechercher', 'secondary', '', false);
     if (!empty($_GET['search'])) {
-        echo ' <a href="' . admin_url('admin.php?page=guide-materiel') . '">Réinitialiser</a>';
+        echo ' <a href="' . admin_url('admin.php?page=guide-divers') . '">Réinitialiser</a>';
     }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'], $_POST['materials_ids'], $_POST['galerie3d_bulk_nonce']) && wp_verify_nonce($_POST['galerie3d_bulk_nonce'], 'galerie3d_bulk_action')) {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['bulk_action'], $_POST['divers_ids'], $_POST['galerie3d_bulk_nonce'])
+    && wp_verify_nonce($_POST['galerie3d_bulk_nonce'], 'galerie3d_bulk_action')) {
+
     $action = sanitize_text_field($_POST['bulk_action']);
-    $ids = array_map('intval', $_POST['materials_ids']);
+    $ids = array_map('intval', $_POST['divers_ids']);
 
     if (!empty($ids)) {
         switch ($action) {
             case 'enable':
                 $wpdb->query("UPDATE $table SET status = 1 WHERE id IN (" . implode(',', $ids) . ")");
-                echo '<div class="notice notice-success"><p>Matériaux activés.</p></div>';
+                echo '<div class="notice notice-success"><p>Divers activés.</p></div>';
                 break;
 
             case 'disable':
                 $wpdb->query("UPDATE $table SET status = 0 WHERE id IN (" . implode(',', $ids) . ")");
-                echo '<div class="notice notice-success"><p>Matériaux désactivés.</p></div>';
+                echo '<div class="notice notice-success"><p>Divers désactivés.</p></div>';
                 break;
 
             case 'delete':
                 $wpdb->query("DELETE FROM $table WHERE id IN (" . implode(',', $ids) . ")");
-                echo '<div class="notice notice-success"><p>Matériaux supprimés.</p></div>';
+                echo '<div class="notice notice-success"><p>Divers supprimés.</p></div>';
                 break;
         }
     }
 }
-
+$results = $wpdb->get_results("SELECT * FROM $table ORDER BY id DESC");
     echo '</form><br>';
-    echo '<a href="' . admin_url('admin.php?page=guide-materiel-form&action=add') . '" class="page-title-action" style="margin-top:15px;">Ajouter un matériau</a>';
+    echo '<a href="' . admin_url('admin.php?page=guide-divers-form&action=add') . '" class="page-title-action" style="margin-top:15px;">Ajouter un Divers</a>';
 
    // echo '<a href="' . admin_url('admin.php?page=galerie3d-form&action=add') . '" class="page-title-action" style="margin-top:15px;">Ajouter un matériau</a>';
     echo '<hr>';
 
     $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-    $opts = get_option('galerie3d_materiaux_admin_options');
+    $opts = get_option('galerie3d_divers_admin_options');
     $items_per_page = $opts['per_page'] ?? 10;
-    
-    
     
     //$items_per_page = 10;
     $offset = ($paged - 1) * $items_per_page;
@@ -113,7 +115,7 @@ echo '<style>
     $total_pages = ceil($total_items / $items_per_page);
 
     $query = "SELECT * FROM $table $where_sql ORDER BY $orderby $order LIMIT $items_per_page OFFSET $offset";
-    $materials = $wpdb->get_results($query);
+    $divers = $wpdb->get_results($query);
 
     echo '<form method="post">';
 wp_nonce_field('galerie3d_bulk_action', 'galerie3d_bulk_nonce');
@@ -128,7 +130,7 @@ echo '<input type="submit" class="button action" value="Appliquer">';
 
 
     function sort_link($column, $label, $current_by, $current_order) {
-        $base_url = admin_url('admin.php?page=guide-materiel');
+        $base_url = admin_url('admin.php?page=guide-divers');
         $asc_url = add_query_arg(['orderby' => $column, 'order' => 'asc'], $base_url);
         $desc_url = add_query_arg(['orderby' => $column, 'order' => 'desc'], $base_url);
 
@@ -152,15 +154,15 @@ echo '<input type="submit" class="button action" value="Appliquer">';
     echo '<th>' . sort_link('status', 'Statut', $orderby, $order) . '</th>';
     echo '</tr></thead><tbody>';
 
-    foreach ($materials as $mat) {
+    foreach ($divers as $mat) {
     $id = intval($mat->id);
     $name = esc_html($mat->name);
-    $edit_url = admin_url("admin.php?page=guide-materiel-form&action=edit&id=$id");
-    $clone_url = admin_url("admin.php?page=guide-materiel-form&action=clone&id=$id");
-    $delete_url = wp_nonce_url(admin_url("admin.php?page=guide-materiel&action=delete&id=$id"), 'p3d_delete_material_' . $id);
+    $edit_url = admin_url("admin.php?page=guide-divers-form&action=edit&id=$id");
+    $clone_url = admin_url("admin.php?page=guide-divers-form&action=clone&id=$id");
+    $delete_url = wp_nonce_url(admin_url("admin.php?page=guide-divers&action=delete&id=$id"), 'p3d_delete_material_' . $id);
 
     echo '<tr class="has-row-actions">';
-    echo '<td><input type="checkbox" class="p3d-select-item" name="materials_ids[]" value="' . esc_attr($id) . '" /></td>';
+    echo '<td><input type="checkbox" class="p3d-select-item" name="divers_ids[]" value="' . esc_attr($id) . '" /></td>';
     echo '<td>' . esc_html($id) . '</td>';
     echo '<td>';
     echo '<strong>' . $name . '</strong>';
@@ -172,7 +174,7 @@ echo '<input type="submit" class="button action" value="Appliquer">';
     echo '</td>';
     echo '<td>' . esc_html(wp_trim_words($mat->description, 15)) . '</td>';
     $status_icon = $mat->status ? '✔️' : '❌';
-$toggle_icon = $mat->status ? '❌ désactiver' : '✔️ activer';
+    $toggle_icon = $mat->status ? '❌ désactiver' : '✔️ activer';
 echo '<td>';
 echo '<strong>' . $status_icon . '</strong>';
 echo '<div class="row-actions">';
@@ -187,7 +189,7 @@ echo '</td>';
     echo '</tbody></table>';
     echo '</form>';
     
- echo '<a href="' . admin_url('admin.php?page=guide-materiel-form&action=add') . '" class="page-title-action" style="margin-top:15px;">Ajouter un matériau</a>';
+ echo '<a href="' . admin_url('admin.php?page=guide-divers-form&action=add') . '" class="page-title-action" style="margin-top:15px;">Ajouter un Divers</a>';
 
     echo '<div class="tablenav"><div class="tablenav-pages">';
     $page_links = paginate_links([

@@ -1,0 +1,10 @@
+.p3d-toggle-status {
+    cursor: pointer;
+    font-weight: bold;
+}
+.status-enabled {
+    color: green;
+}
+.status-disabled {
+    color: red;
+}

@@ -5,7 +5,9 @@ add_shortcode('galerie3d', function () {
     global $wpdb;
 
     $table_name = $wpdb->prefix . 'p3d_galerie3d';
-    $images_per_page =get_option('galerie3d_client_per_page', 10); // 10 par défaut si rien dans la DB
+   // $images_per_page =get_option('galerie3d_client_per_page', 12); // 10 par défaut si rien dans la DB
+    $opts = get_option('galerie3d_client_options');
+    $images_per_page = $opts['per_page'] ?? 10;
     $paged = max(1, get_query_var('paged') ?: (get_query_var('page') ?: 1));
     $offset = ($paged - 1) * $images_per_page;
 

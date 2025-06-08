@@ -10,14 +10,14 @@ $is_edit  = !empty($_GET['id']) && (!isset($_GET['action']) || $_GET['action'] !
 $is_clone = !empty($_GET['id']) && isset($_GET['action']) && $_GET['action'] === 'clone';
 
 // Pré-remplissage si édition ou clonage
-$commande = null;
+$Réalisation = null;
 if (!empty($_GET['id'])) {
-    $commande = $wpdb->get_row(
+    $Réalisation = $wpdb->get_row(
         $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", intval($_GET['id'])),
         ARRAY_A
     );
     if ($is_clone) {
-        unset($commande['id']);
+        unset($Réalisation['id']);
     }
 }
 
@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && current_user_can('manage_options'))
         if (!isset($upload['error'])) {
             $data['image_url'] = esc_url_raw($upload['url']);
         }
-    } elseif (!empty($commande['image_url'])) {
-        $data['image_url'] = $commande['image_url'];
+    } elseif (!empty($Réalisation['image_url'])) {
+        $data['image_url'] = $Réalisation['image_url'];
     }
 
     // Upload STL
@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && current_user_can('manage_options'))
         if (!isset($upload['error'])) {
             $data['stl_file_url'] = esc_url_raw($upload['url']);
         }
-    } elseif (!empty($commande['stl_file_url'])) {
-        $data['stl_file_url'] = $commande['stl_file_url'];
+    } elseif (!empty($Réalisation['stl_file_url'])) {
+        $data['stl_file_url'] = $Réalisation['stl_file_url'];
     }
 
     if ($is_edit) {
@@ -80,27 +80,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && current_user_can('manage_options'))
     <table class="form-table">
         <tr>
             <th><label for="client_name">Nom du client</label></th>
-            <td><input type="text" name="client_name" value="<?php echo esc_attr($commande['client_name'] ?? ''); ?>" class="regular-text" required></td>
+            <td><input type="text" name="client_name" value="<?php echo esc_attr($Réalisation['client_name'] ?? ''); ?>" class="regular-text" required></td>
         </tr>
         <tr>
             <th><label for="description">Description</label></th>
-            <td><textarea name="description" rows="4" class="large-text"><?php echo esc_textarea($commande['description'] ?? ''); ?></textarea></td>
+            <td><textarea name="description" rows="4" class="large-text"><?php echo esc_textarea($Réalisation['description'] ?? ''); ?></textarea></td>
         </tr>
         <tr>
             <th><label for="material">Matière</label></th>
-            <td><input type="text" name="material" value="<?php echo esc_attr($commande['material'] ?? ''); ?>" class="regular-text"></td>
+            <td><input type="text" name="material" value="<?php echo esc_attr($Réalisation['material'] ?? ''); ?>" class="regular-text"></td>
         </tr>
         <tr>
             <th><label for="print_date">Date d'impression</label></th>
-            <td><input type="date" name="print_date" value="<?php echo esc_attr($commande['print_date'] ?? ''); ?>"></td>
+            <td><input type="date" name="print_date" value="<?php echo esc_attr($Réalisation['print_date'] ?? ''); ?>"></td>
         </tr>
         <tr>
             <th><label for="image">Image</label></th>
             <td>
                 <input type="file" name="image">
-                <?php if (!empty($commande['image_url'])): ?>
+                <?php if (!empty($Réalisation['image_url'])): ?>
                     <p style="margin-top:10px;">
-                        <img src="<?php echo esc_url($commande['image_url']); ?>" style="max-width:200px; border-radius:6px;" />
+                        <img src="<?php echo esc_url($Réalisation['image_url']); ?>" style="max-width:200px; border-radius:6px;" />
                     </p>
                 <?php endif; ?>
             </td>
@@ -108,22 +108,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && current_user_can('manage_options'))
         <tr>
             <th><label for="image_name">Nom de l’image</label></th>
             <td>
-                <input type="text" name="image_name" value="<?php echo esc_attr($commande['image_name'] ?? ''); ?>" class="regular-text">
-                <p class="description">Nom affiché dans la liste des commandes.</p>
+                <input type="text" name="image_name" value="<?php echo esc_attr($Réalisation['image_name'] ?? ''); ?>" class="regular-text">
+                <p class="description">Nom affiché dans la liste des Réalisations.</p>
             </td>
         </tr>
         <tr>
             <th><label for="stl_file">Fichier STL</label></th>
             <td>
                 <input type="file" name="stl_file" accept=".stl">
-                <?php if (!empty($commande['stl_file_url'])): ?>
-                    <p><a href="<?php echo esc_url($commande['stl_file_url']); ?>" target="_blank">Télécharger le fichier STL existant</a></p>
+                <?php if (!empty($Réalisation['stl_file_url'])): ?>
+                    <p><a href="<?php echo esc_url($Réalisation['stl_file_url']); ?>" target="_blank">Télécharger le fichier STL existant</a></p>
                 <?php endif; ?>
             </td>
         </tr>
         <tr>
             <th><label for="status">Actif</label></th>
-            <td><input type="checkbox" name="status" value="1" <?php checked($commande['status'] ?? 0, 1); ?>></td>
+            <td><input type="checkbox" name="status" value="1" <?php checked($Réalisation['status'] ?? 0, 1); ?>></td>
         </tr>
     </table>
 
