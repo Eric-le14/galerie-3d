@@ -1,0 +1,72 @@
+.p3d-divers-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 10px;
+}
+
+.p3d-divers-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.p3d-divers-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.p3d-divers-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.p3d-divers-image {
+  flex: 1 1 300px;
+  max-width: 400px;
+}
+
+.p3d-divers-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.p3d-divers-description {
+  flex: 2 1 400px;
+  font-size: 20px;
+  line-height: 1.6;
+}
+.p3d-divers-pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.p3d-pagination-button a,
+.p3d-pagination-button span {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 4px;
+    background-color: #f0f0f0;
+    color: #0073aa;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.p3d-pagination-button a:hover {
+    background-color: #e0e0e0;
+}
+
+.p3d-pagination-button .current {
+    background-color: #0073aa;
+    color: #fff;    
+    font-weight: bold;
+    pointer-events: none;
+}

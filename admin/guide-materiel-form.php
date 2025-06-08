@@ -63,6 +63,8 @@ $bouton = ($action === 'edit') ? 'Mettre à jour' : 'Ajouter';
 <div class="wrap">
     <h1><?php echo esc_html($titre); ?></h1>
 
+        <a href="<?php echo admin_url('admin.php?page=guide-materiel'); ?>" class="button-secondary">Retour à la liste</a>
+
     <form method="post">
         <?php wp_nonce_field('save_material', 'p3d_material_nonce'); ?>
 
@@ -109,7 +111,6 @@ $bouton = ($action === 'edit') ? 'Mettre à jour' : 'Ajouter';
             ?>
         </table>
 
-        <?php submit_button($bouton); ?>
-        <a href="<?php echo admin_url('admin.php?page=guide-materiel'); ?>" class="button-secondary">Retour à la liste</a>
+         <?php submit_button($bouton); ?>
     </form>
 </div>
